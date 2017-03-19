@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b98ed35e-f35a-4824-b7fe-aa465c47eb57">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="141"/>
+        <parameter name="nic" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT * 
+                    FROM glen_hotel_management_system.event e,glen_hotel_management_system.event_customer_info c,event_payment p 
+                    WHERE customer_NIC like '$P!{nic}' and c.cus_event_id=e.event_id and e.event_id=p.event_payment_event_ID;]]>
+	</queryString>
+	<field name="event_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="event_type" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="event_duration" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="event_entertainment" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="event_date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="event_time" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="no_of_guests" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="hall_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="hall_price" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="customer_NIC" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="customer_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="customer_address" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="customer_tel" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="event_payment_total" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="event_payment_amount" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="event_payment_balance" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="event_payment_due_date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#3399FF" uuid="1ccc280a-bf3e-4b4c-9a40-d0319df1f113"/>
+				<staticText>
+					<reportElement x="9" y="10" width="234" height="63" forecolor="#FFFFFF" uuid="d9f91d6c-8f78-4977-b732-7517b0f00d79"/>
+					<textElement>
+						<font fontName="Times New Roman" size="48" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Glen Hotel]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="297" y="10" width="169" height="35" forecolor="#FFFFFF" uuid="1360ffa7-40f4-4ec2-a350-155a43fc964f"/>
+					<textElement textAlignment="Center">
+						<font size="24" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Event Report]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="205">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="563fc582-948d-4da6-8667-2222329b0e98"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="18" y="32" width="159" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="2a6f7f7e-8eff-455d-bb1f-1f497945ae68"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Event ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="18" y="67" width="159" height="22" forecolor="#006699" backcolor="#E6E6E6" uuid="751af1d2-d37b-4916-89cd-4487c85e7f65"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Event Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="18" y="134" width="159" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="8efc1bf4-955b-4911-852a-67adb86cbf96"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Event Duration]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="18" y="165" width="159" height="23" forecolor="#006699" backcolor="#E6E6E6" uuid="36243368-d2a6-4077-bdda-176490c525ca"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Event Entertainment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="334" y="32" width="97" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="5df7fcf0-7ea0-462a-ab52-c3b46d5daf30"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Event Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="334" y="69" width="97" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="f9935f28-6d18-4801-9cc1-014b8cddbdbc"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Event Time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="18" y="101" width="159" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="b7a9ce5a-55a6-4e76-9243-faecebce174f"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No of Guests]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="334" y="101" width="97" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="6d160eab-c810-418e-946f-460d406e07ae"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hall Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="334" y="135" width="95" height="19" forecolor="#006699" backcolor="#E6E6E6" uuid="c2d72d71-bc56-464a-95dc-21eb8af6c5b7"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[hall_price]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="202" y="32" width="90" height="20" uuid="263058f0-7a15-4d6b-bb55-82e7d08ceade"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{event_id}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="202" y="67" width="118" height="22" uuid="87e67168-09f2-4c99-86ba-80e9a2a9510b"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{event_type}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="202" y="134" width="102" height="20" uuid="eb251208-fb3d-48f6-bcd2-7c87eafedf9c"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{event_duration}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="202" y="165" width="167" height="23" uuid="c1f6b962-b206-4ac2-89bd-5fc87d24018e"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{event_entertainment}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="457" y="32" width="98" height="20" uuid="a22005f8-f904-49d3-b46f-858784740473"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{event_date}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="457" y="67" width="98" height="22" uuid="17a9377f-a4ed-4d20-b4b4-8a47c1ae6805"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{event_time}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="202" y="101" width="75" height="20" uuid="c381fc67-7c14-47b3-9839-bb3d144b95c8"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_of_guests}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="457" y="101" width="98" height="20" uuid="5db37d15-09ff-4a26-a850-dbc62c77ef61"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hall_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="457" y="134" width="98" height="20" uuid="183f6ac6-42fe-4c1c-bde7-c7c36cc31a08"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hall_price}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="331">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="3723d302-54af-4c8f-8664-3fa008ba409e"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="202" y="30" width="132" height="26" uuid="f3417579-3854-4c87-b892-fc0a33d2bf88"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customer_NIC}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="202" y="61" width="132" height="20" uuid="a7f0302d-47cc-4c4f-9f63-43173c8370b7"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customer_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="202" y="91" width="146" height="20" uuid="dc6af94f-d689-403a-9021-aaf81bbcf239"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customer_address}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="202" y="121" width="132" height="20" uuid="434d43c0-2d4e-4084-9bc2-9699d3fe61a4"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customer_tel}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="234" y="173" width="135" height="20" uuid="a9b5b07d-9071-4e32-839a-1a6cabbf3ed2"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{event_payment_total}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="234" y="206" width="135" height="20" uuid="07b47c26-47f4-4615-844f-4153587121c8"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{event_payment_amount}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="234" y="239" width="147" height="20" uuid="209500ee-b45b-4a18-bb6e-2d8e398f75b7"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{event_payment_balance}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="234" y="273" width="135" height="20" uuid="6012978f-6b6d-4d96-937d-0c2149f9d9b1"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{event_payment_due_date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="23" y="32" width="158" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="810b4146-f087-47b5-bd3f-c06c38e3e5bf"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Customer NIC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="23" y="61" width="158" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="775d13aa-de3d-48d5-a0f8-18e598ee90ec"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Customer Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="23" y="91" width="158" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="2229fb4c-7710-42b3-85a1-fa1d83858620"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Customer Address]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="23" y="118" width="158" height="23" forecolor="#006699" backcolor="#E6E6E6" uuid="20727cc1-c42c-4b0b-8acd-46f42a058826"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Customer Contact No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="23" y="169" width="200" height="24" forecolor="#006699" backcolor="#E6E6E6" uuid="f2232372-309b-4855-a986-9f4c46fcada6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Event Payment Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="24" y="206" width="199" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="b89ddcae-4557-4810-95ce-85a44499b5e6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Event Payment Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="22" y="238" width="201" height="21" forecolor="#006699" backcolor="#E6E6E6" uuid="a0c87e80-d2a6-45f3-a2d5-3ceed684d738"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Event Payment Balance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="22" y="273" width="201" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="6571fb17-39f3-44d4-87f8-698e5a612037"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Event Payment Due Date]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="67b0831d-99d1-4400-a639-bc049c1cc674"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="3130f07e-4a4c-4fc8-a646-473ff9c07a18"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="4" width="100" height="13" uuid="1b0ddf97-1111-41e0-8188-08333cca855f"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

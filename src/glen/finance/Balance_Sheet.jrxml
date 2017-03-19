@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Balance_Sheet" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="04737515-6cef-4779-a07a-8b229e0fa517">
+	<property name="ireport.zoom" value="1.0000000000000029"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="96"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="firstdate" class="java.lang.String"/>
+	<parameter name="seconddate" class="java.lang.String"/>
+	<parameter name="Username" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     (SELECT SUM(cashflow_amount) FROM `fin_cashflow` fin_cashflow WHERE cashflow_payment_type = 'Liability' AND cashflow_payment_status='Credit' AND cashflow_date >= '$P!{firstdate}' AND cashflow_date < '$P!{seconddate}') AS LiabilityDebit,
+     (SELECT SUM(cashflow_amount) FROM  `fin_cashflow` fin_cashflow WHERE cashflow_payment_type = 'Liability' AND cashflow_payment_status='Debit' AND cashflow_date >= '$P!{firstdate}' AND cashflow_date < '$P!{seconddate}') AS LiabilityCredit,
+     (SELECT SUM(cashflow_amount) FROM  `fin_cashflow` fin_cashflow WHERE cashflow_payment_type = 'Investment' AND cashflow_payment_status='Credit' AND cashflow_date >= '$P!{firstdate}' AND cashflow_date < '$P!{seconddate}') AS InvestmentDebit,
+     (SELECT SUM(cashflow_amount) FROM  `fin_cashflow` fin_cashflow WHERE cashflow_payment_type = 'Investment' AND cashflow_payment_status='Debit' AND cashflow_date >= '$P!{firstdate}' AND cashflow_date < '$P!{seconddate}') AS InvestmentCredit,
+
+     (SELECT SUM(cashflow_amount) FROM  `fin_cashflow` fin_cashflow WHERE cashflow_payment_type = 'Assest' AND cashflow_payment_status='Credit' AND cashflow_date >= '$P!{firstdate}' AND cashflow_date < '$P!{seconddate}') AS AssestDebit,
+     (SELECT SUM(cashflow_amount) FROM  `fin_cashflow` fin_cashflow WHERE cashflow_payment_type = 'Assest' AND cashflow_payment_status='Debit' AND cashflow_date >= '$P!{firstdate}' AND cashflow_date < '$P!{seconddate}') AS AssestCredit,
+     ((SELECT SUM(cashflow_amount) FROM  `fin_cashflow` fin_cashflow WHERE cashflow_payment_type = 'Income' AND cashflow_payment_status='Credit' AND cashflow_date >= '$P!{firstdate}' AND cashflow_date < '$P!{seconddate}')-
+     (SELECT SUM(cashflow_amount) FROM  `fin_cashflow` fin_cashflow WHERE cashflow_payment_type = 'Expenditure' AND cashflow_payment_status='Credit' AND cashflow_date >= '$P!{firstdate}' AND cashflow_date < '$P!{seconddate}')) AS CAssestCredit,
+     ((SELECT SUM(cashflow_amount) FROM  `fin_cashflow` fin_cashflow WHERE cashflow_payment_type = 'Expenditure' AND cashflow_payment_status='Debit' AND cashflow_date >= '$P!{firstdate}' AND cashflow_date < '$P!{seconddate}')-
+     (SELECT SUM(cashflow_amount) FROM  `fin_cashflow` fin_cashflow WHERE cashflow_payment_type = 'Income' AND cashflow_payment_status='Debit' AND cashflow_date >= '$P!{firstdate}' AND cashflow_date < '$P!{seconddate}')) AS CAssestDebit,
+
+     (((SELECT SUM(cashflow_amount) FROM  `fin_cashflow` fin_cashflow WHERE cashflow_payment_type = 'Liability' AND cashflow_payment_status='Credit' AND cashflow_date >= '$P!{firstdate}' AND cashflow_date < '$P!{seconddate}')-
+     (SELECT SUM(cashflow_amount) FROM  `fin_cashflow` fin_cashflow WHERE cashflow_payment_type = 'Liability' AND cashflow_payment_status='Debit' AND cashflow_date >= '$P!{firstdate}' AND cashflow_date < '$P!{seconddate}'))+
+     ((SELECT SUM(cashflow_amount) FROM  `fin_cashflow` fin_cashflow WHERE cashflow_payment_type = 'Investment' AND cashflow_payment_status='Credit' AND cashflow_date >= '$P!{firstdate}' AND cashflow_date < '$P!{seconddate}')-
+     (SELECT SUM(cashflow_amount) FROM  `fin_cashflow` fin_cashflow WHERE cashflow_payment_type = 'Investment' AND cashflow_payment_status='Debit' AND cashflow_date >= '$P!{firstdate}' AND cashflow_date < '$P!{seconddate}'))) AS TotalLiability,
+
+
+     (((SELECT SUM(cashflow_amount) FROM  `fin_cashflow` fin_cashflow WHERE cashflow_payment_type = 'Assest' AND cashflow_payment_status='Debit' AND cashflow_date >= '$P!{firstdate}' AND cashflow_date < '$P!{seconddate}')-
+     (SELECT SUM(cashflow_amount) FROM  `fin_cashflow` fin_cashflow WHERE cashflow_payment_type = 'Assest' AND cashflow_payment_status='Credit' AND cashflow_date >= '$P!{firstdate}' AND cashflow_date < '$P!{seconddate}'))+
+     (((SELECT SUM(cashflow_amount) FROM  `fin_cashflow` fin_cashflow WHERE cashflow_payment_type = 'Income' AND cashflow_payment_status='Credit' AND cashflow_date >= '$P!{firstdate}' AND cashflow_date < '$P!{seconddate}')-
+     (SELECT SUM(cashflow_amount) FROM  `fin_cashflow` fin_cashflow WHERE cashflow_payment_type = 'Expenditure' AND cashflow_payment_status='Credit' AND cashflow_date >= '$P!{firstdate}' AND cashflow_date < '$P!{seconddate}'))+
+     ((SELECT SUM(cashflow_amount) FROM  `fin_cashflow` fin_cashflow WHERE cashflow_payment_type = 'Expenditure' AND cashflow_payment_status='Debit' AND cashflow_date >= '$P!{firstdate}' AND cashflow_date < '$P!{seconddate}')-
+     (SELECT SUM(cashflow_amount) FROM  `fin_cashflow` fin_cashflow WHERE cashflow_payment_type = 'Income' AND cashflow_payment_status='Debit' AND cashflow_date >= '$P!{firstdate}' AND cashflow_date < '$P!{seconddate}')))) AS TotalAssests,
+     fin_cashflow.`cashflow_payment_type` AS Type,
+     fin_cashflow.`cashflow_payment_status` AS Status
+
+FROM
+     `fin_cashflow` fin_cashflow
+
+WHERE
+     cashflow_date >= '$P!{firstdate}'
+ AND cashflow_date < '$P!{seconddate}'
+
+GROUP BY Type,Status]]>
+	</queryString>
+	<field name="LiabilityDebit" class="java.lang.Double"/>
+	<field name="LiabilityCredit" class="java.lang.Double"/>
+	<field name="InvestmentDebit" class="java.lang.Double"/>
+	<field name="InvestmentCredit" class="java.lang.Double"/>
+	<field name="AssestDebit" class="java.lang.Double"/>
+	<field name="AssestCredit" class="java.lang.Double"/>
+	<field name="CAssestDebit" class="java.lang.Double"/>
+	<field name="CAssestCredit" class="java.lang.Double"/>
+	<field name="TotalLiability" class="java.lang.Double"/>
+	<field name="TotalAssests" class="java.lang.Double"/>
+	<field name="Type" class="java.lang.String"/>
+	<field name="Status" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-22" width="595" height="92" backcolor="#2A87EB" uuid="bf0c9a05-f107-4502-8104-ccbd275d5be0"/>
+				<staticText>
+					<reportElement x="313" y="10" width="262" height="35" forecolor="#FFFFFF" uuid="7f0baf96-3b40-47df-b22a-161307ef7627"/>
+					<textElement textAlignment="Right">
+						<font size="20" isBold="true"/>
+					</textElement>
+					<text><![CDATA[BALANCE SHEET]]></text>
+				</staticText>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement x="433" y="40" width="142" height="17" forecolor="#FFFFFF" uuid="33d0426e-3ed0-4f53-ac9d-221ef2992508"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="20" y="10" width="250" height="59" forecolor="#FFFFFF" uuid="c90829de-7ead-40b9-8db7-0f402214d4fb"/>
+					<textElement>
+						<font fontName="Century" size="44" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Glen Hotel]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="190" y="57" width="77" height="20" forecolor="#FFFFFF" uuid="f6ef4878-3968-40e6-bdf0-dcd6551d0bcb"/>
+					<textElement>
+						<font fontName="Candara" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ Mt. Lavinia]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="313" y="40" width="120" height="17" forecolor="#FFFFFF" backcolor="#FFCC66" uuid="d38f1d07-f296-4bcd-a60a-e6d9fcc6db22"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12"/>
+					</textElement>
+					<text><![CDATA[Generated Date:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="313" y="60" width="120" height="17" forecolor="#FFFFFF" backcolor="#FFCC66" uuid="e0f0bc55-df67-487f-a3ba-a1c424015cb7"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12"/>
+					</textElement>
+					<text><![CDATA[Statement from:]]></text>
+				</staticText>
+				<textField>
+					<reportElement style="Detail" x="433" y="60" width="142" height="16" forecolor="#FFFFFF" uuid="f59b644e-0d52-4763-a506-f441c13f788f"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="SansSerif" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{firstdate}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="385" y="75" width="48" height="17" forecolor="#FFFFFF" backcolor="#FFCC66" uuid="3f15d7e7-2013-4393-8f5b-c60939879c3a"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="12"/>
+					</textElement>
+					<text><![CDATA[to :]]></text>
+				</staticText>
+				<textField>
+					<reportElement style="Detail" x="433" y="75" width="142" height="16" forecolor="#FFFFFF" uuid="57d9315c-d721-47e6-aefc-f1d35d1003a6"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="SansSerif" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{seconddate}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="583" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" forecolor="#0066FF" uuid="c167936f-51af-48bd-b60f-feaf983927f2"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement style="Detail" x="382" y="168" width="155" height="26" forecolor="#0066FF" uuid="afec2e3c-2901-465e-9c1e-cbe97ef82f6e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LiabilityDebit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="382" y="204" width="155" height="26" forecolor="#0066FF" uuid="591ad845-ced4-4f05-9752-e0d292b4a605"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LiabilityCredit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="382" y="86" width="155" height="26" forecolor="#0066FF" uuid="dc69f257-5c3b-4cce-890b-7de326577bc2"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{InvestmentCredit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="382" y="50" width="155" height="26" forecolor="#0066FF" uuid="c33f882b-e7d4-4355-9b72-327c59db8793"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{InvestmentDebit}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="13" y="16" width="218" height="21" forecolor="#2A87EB" backcolor="#FFFFFF" uuid="759069bd-90db-4e73-9419-d4c44c068573"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+					<paragraph firstLineIndent="20"/>
+				</textElement>
+				<text><![CDATA[INVESTMENT]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-19" y="15" width="595" height="1" forecolor="#2A87EB" uuid="b0a3ad4a-00b7-49a7-9bf6-708756303969"/>
+			</line>
+			<line>
+				<reportElement x="-19" y="36" width="595" height="1" forecolor="#2A87EB" uuid="39a8e765-8c69-4c97-8b13-079ea92e027d"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="55" y="56" width="286" height="20" forecolor="#2A87EB" backcolor="#FFFFFF" uuid="33fb4cc7-6077-494f-a638-d77f51f08c48"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+					<paragraph firstLineIndent="20"/>
+				</textElement>
+				<text><![CDATA[Increase of Investment (Debit)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="55" y="92" width="286" height="20" forecolor="#2A87EB" backcolor="#FFFFFF" uuid="35c7375c-d87b-4b18-87d0-d003b1bb8f00"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+					<paragraph firstLineIndent="20"/>
+				</textElement>
+				<text><![CDATA[Decrease of Investment (Credit)]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-19" y="128" width="595" height="1" forecolor="#2A87EB" uuid="4367e5a0-a44c-4d7c-8a07-6373137bda45"/>
+			</line>
+			<line>
+				<reportElement x="-19" y="151" width="595" height="1" forecolor="#2A87EB" uuid="8d1abd3c-5310-4952-bb6a-9c8eadc33f64"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="13" y="129" width="218" height="21" forecolor="#2A87EB" backcolor="#FFFFFF" uuid="4f6d1456-aee2-4902-86c4-9dd4a7ab7aa2"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+					<paragraph firstLineIndent="20"/>
+				</textElement>
+				<text><![CDATA[LIABILITIES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="55" y="174" width="286" height="20" forecolor="#2A87EB" backcolor="#FFFFFF" uuid="8ac7f372-d174-42d0-8827-b90eb98db401"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+					<paragraph firstLineIndent="20"/>
+				</textElement>
+				<text><![CDATA[Increase of Liability (Debit)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="55" y="210" width="286" height="20" forecolor="#2A87EB" backcolor="#FFFFFF" uuid="f317da73-5e62-4444-8f0e-21c8db32c587"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+					<paragraph firstLineIndent="20"/>
+				</textElement>
+				<text><![CDATA[Decrease of Liability (Credit)]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-19" y="257" width="595" height="1" forecolor="#FF9933" uuid="124a0c1e-bd8c-4815-9be4-6f303ac08be9"/>
+			</line>
+			<line>
+				<reportElement x="-19" y="286" width="595" height="1" forecolor="#FF9933" uuid="abea507e-ded8-4829-907c-557b954e9540"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="13" y="260" width="218" height="25" forecolor="#FF9933" backcolor="#FFFFFF" uuid="77eff431-4f33-401a-b402-d3f65ab5b371"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+					<paragraph firstLineIndent="20"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Detail" x="382" y="259" width="155" height="26" forecolor="#FF9933" uuid="9672ed21-cad3-488e-b5e4-f7bcac06aea3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TotalLiability}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="-19" y="306" width="595" height="1" forecolor="#2A87EB" uuid="3428dccf-1cef-4c45-a6ca-078142a8ba3d"/>
+			</line>
+			<line>
+				<reportElement x="-19" y="329" width="595" height="1" forecolor="#2A87EB" uuid="a785a1ed-4c21-40bb-83f2-cf8eb7f0a2a8"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="13" y="307" width="218" height="21" forecolor="#2A87EB" backcolor="#FFFFFF" uuid="0668832f-41fa-48c2-ba95-a98043e899c6"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+					<paragraph firstLineIndent="20"/>
+				</textElement>
+				<text><![CDATA[ASSESTS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="55" y="347" width="286" height="20" forecolor="#2A87EB" backcolor="#FFFFFF" uuid="e30cbc37-4030-4504-ac51-6885814066a0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+					<paragraph firstLineIndent="20"/>
+				</textElement>
+				<text><![CDATA[Increase of Assests (Credit)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="55" y="383" width="286" height="20" forecolor="#2A87EB" backcolor="#FFFFFF" uuid="93df433c-1cc0-4d28-9148-4e9025d81b1c"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+					<paragraph firstLineIndent="20"/>
+				</textElement>
+				<text><![CDATA[Decrease of Assests (Debit)]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Detail" x="382" y="341" width="155" height="26" forecolor="#0066FF" uuid="0e9f9700-5128-44cf-a011-f4308ee094d0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AssestCredit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="382" y="377" width="155" height="26" forecolor="#0066FF" uuid="7d69295d-76c7-498a-b0df-528cd627a461"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AssestDebit}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="-19" y="429" width="595" height="1" forecolor="#2A87EB" uuid="e048b0b5-9f8d-4205-84c8-2956745f153e"/>
+			</line>
+			<line>
+				<reportElement x="-19" y="452" width="595" height="1" forecolor="#2A87EB" uuid="f36f30b1-e59b-48c8-97f2-6639652560aa"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="13" y="430" width="218" height="21" forecolor="#2A87EB" backcolor="#FFFFFF" uuid="44509529-f49d-48de-b4aa-0bf7cf2eba5f"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+					<paragraph firstLineIndent="20"/>
+				</textElement>
+				<text><![CDATA[CURRENT ASSESTS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="55" y="506" width="286" height="20" forecolor="#2A87EB" backcolor="#FFFFFF" uuid="e1d2e5a8-4d22-4c8f-9827-a80a0c128cef"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+					<paragraph firstLineIndent="20"/>
+				</textElement>
+				<text><![CDATA[Decrease of Current Assests (Debit)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="55" y="470" width="286" height="20" forecolor="#2A87EB" backcolor="#FFFFFF" uuid="57c9d208-e3a8-4714-b2ee-e2ee971071a8"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+					<paragraph firstLineIndent="20"/>
+				</textElement>
+				<text><![CDATA[Increase of Current Assests (Credit)]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Detail" x="382" y="464" width="155" height="26" forecolor="#0066FF" uuid="b96d43f7-3687-49b2-a97e-5c12e1c246ae"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CAssestCredit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="382" y="500" width="155" height="26" forecolor="#0066FF" uuid="db3e82ef-e5f3-4852-92b2-58f52b1b1187"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CAssestDebit}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="-19" y="548" width="595" height="1" forecolor="#FF9933" uuid="f9327f39-07af-40f7-b632-dde574dbd3be"/>
+			</line>
+			<line>
+				<reportElement x="-19" y="577" width="595" height="1" forecolor="#FF9933" uuid="d49423f1-59cd-432c-8938-b84357795192"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="13" y="551" width="218" height="25" forecolor="#FF9933" backcolor="#FFFFFF" uuid="7f7e9776-cd86-4029-8f7f-1a1c81cadd2d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+					<paragraph firstLineIndent="20"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Detail" x="382" y="551" width="155" height="26" forecolor="#FF9933" uuid="9003b439-bf02-4d08-86c9-c9442e3ca9f7"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="15"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TotalAssests}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="118" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="435" y="98" width="80" height="20" forecolor="#0066FF" uuid="c820c2c5-c525-42b5-b71b-c5eff719a511"/>
+				<textElement textAlignment="Right">
+					<font size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="515" y="98" width="40" height="20" forecolor="#0066FF" uuid="c3d2d3e6-3064-4d12-86f9-714a6e28f9d7"/>
+				<textElement>
+					<font size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="-20" y="75" width="595" height="19" forecolor="#2A87EB" backcolor="#2A87EB" uuid="5a0eabfa-8b6a-4761-b6ea-0df324797922"/>
+				<textElement textAlignment="Left">
+					<font size="14" isBold="true"/>
+					<paragraph firstLineIndent="20"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Detail" x="103" y="98" width="176" height="16" forecolor="#0066FF" uuid="3cfdb4e5-54bd-41a6-900f-c37164a597fd"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Username}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="4" y="98" width="86" height="17" forecolor="#0066FF" backcolor="#FFCC66" uuid="23f35d19-da76-42c9-94c7-a078fd5c5429"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Generated By:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="375" y="58" width="172" height="17" forecolor="#0066FF" backcolor="#FFCC66" uuid="bdc306b6-bd55-454a-8f6e-b3907d8745cf"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="11"/>
+				</textElement>
+				<text><![CDATA[Admin/Accounant Certification]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="375" y="41" width="172" height="17" forecolor="#0066FF" backcolor="#FFCC66" uuid="b52267cd-c833-4793-906b-d6349a91eacd"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="11"/>
+				</textElement>
+				<text><![CDATA[.............................................................]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>
