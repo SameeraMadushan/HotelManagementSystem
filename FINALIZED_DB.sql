@@ -2,6 +2,8 @@ CREATE DATABASE  IF NOT EXISTS `glen_hotel_management_system` /*!40100 DEFAULT C
 USE `glen_hotel_management_system`;
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
+--Table Structure and sample data for glen DB
+--
 -- Host: 127.0.0.1    Database: glen_hotel_management_system
 -- ------------------------------------------------------
 -- Server version	5.6.28-log
